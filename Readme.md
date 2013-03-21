@@ -1,10 +1,22 @@
-# commander.go [![Build Status](https://travis-ci.org/vanetix/commander.go.png?branch=master)](https://travis-ci.org/vanetix/commander.go)
+golang: commander 
+=================
+
+Note: Fork of [commander.go](https://github.com/vanetix/commander.go)
+
+[![Build Status](https://travis-ci.org/jprichardson/go-commander.png?branch=master)](https://travis-ci.org/jprichardson/go-commander)
+
 *More unix like argument parsing for go.* Heavily inspired by: [commander.c](https://github.com/visionmedia/commander.c)
 
-## Installing
-`go get github.com/vanetix/commander.go`
 
-## Usage
+Installing
+----------
+
+    go get github.com/vanetix/commander.go
+
+
+Usage
+-----
+
 ```go
 func doWork(args ...string) {
 	// Do some work
@@ -26,11 +38,12 @@ func main() {
 }
 ```
 
-## Release history
-- 1.0.0 - Initial stable version
 
-## License (MIT)
+
+License (MIT)
+-------------
 Copyright (c) 2013 Matt McFarland
+
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
