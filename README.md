@@ -5,7 +5,7 @@ Note: Fork of [commander.go](https://github.com/vanetix/commander.go)
 
 [![Build Status](https://travis-ci.org/jprichardson/go-commander.png?branch=master)](https://travis-ci.org/jprichardson/go-commander)
 
-*More unix like argument parsing for go.* Heavily inspired by: [commander.c](https://github.com/visionmedia/commander.c)
+Unix like argument parsing for go. Heavily inspired by: [commander.c](https://github.com/visionmedia/commander.c) and [commander.js](https://github.com/visionmedia/commander.js)
 
 
 Installing
