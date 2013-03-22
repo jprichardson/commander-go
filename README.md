@@ -23,7 +23,7 @@ func doWork(args ...string) {
 }
 
 func main() {
-	program := commander.Init("Program", "0.1.3")
+	program := commander.Init(0.1.3")
 
 	program.Add(&commander.Option{
 	    Required: false,
@@ -38,11 +38,29 @@ func main() {
 }
 ```
 
+or...
+
+```go
+func main() {
+	program := commander.Init("0.1.3")
+
+	program
+	.option('-p, --peppers', 'Add peppers')
+  .option('-P, --pineapple', 'Add pineapple')
+  .option('-b, --bbq', 'Add bbq sauce')
+  .option('-c, --cheese [type]', 'Add the specified type of cheese)
+	.parse()
+
+//access
+program.Opts["cheese"].Value; //contains value passed like: "-c cheddar" or "--cheese cheddar" 
+}
+```
+
 
 
 License (MIT)
 -------------
-Copyright (c) 2013 Matt McFarland
+Copyright (c) 2013 Matt McFarland, JP Richardson
 
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
