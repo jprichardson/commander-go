@@ -51,8 +51,8 @@ func main() {
   .option("-c, --cheese [type]", "Add the specified type of cheese")
   .parse()
 
-//access
-program.Opts["cheese"].Value; //contains value passed like: "-c cheddar" or "--cheese cheddar" 
+  //access
+  program.Opts["cheese"].Value; //contains value passed like: "-c cheddar" or "--cheese cheddar" 
 }
 ```
 
