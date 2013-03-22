@@ -42,14 +42,14 @@ or...
 
 ```go
 func main() {
-	program := commander.Init("0.1.3")
+  program := commander.Init("0.1.3")
 
-	program
-	.option('-p, --peppers', 'Add peppers')
-  .option('-P, --pineapple', 'Add pineapple')
-  .option('-b, --bbq', 'Add bbq sauce')
-  .option('-c, --cheese [type]', 'Add the specified type of cheese)
-	.parse()
+  program
+  .option("-p, --peppers", "Add peppers")
+  .option("-P, --pineapple", "Add pineapple")
+  .option("-b, --bbq", "Add bbq sauce")
+  .option("-c, --cheese [type]", "Add the specified type of cheese")
+  .parse()
 
 //access
 program.Opts["cheese"].Value; //contains value passed like: "-c cheddar" or "--cheese cheddar" 
