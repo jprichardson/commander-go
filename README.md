@@ -23,7 +23,7 @@ func doWork(args ...string) {
 }
 
 func main() {
-	program := commander.Init(0.1.3")
+	program := commander.Init("0.1.3")
 
 	program.Add(&commander.Option{
 	    Required: false,
