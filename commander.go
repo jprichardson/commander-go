@@ -50,6 +50,7 @@ func Init(version string) *Commander {
 		Verbose: "--help",
 		Description: "display usage",
 		Required: false,
+		Value: "",
 		Callback: func(args ...string) {
 			p.Usage()
 		},
@@ -61,6 +62,7 @@ func Init(version string) *Commander {
 		Verbose: "--version",
 		Description: "display version",
 		Required: false,
+		Value: "",
 		Callback: func(args ...string) {
 			fmt.Fprintf(os.Stdout, "  Version: %s\n", p.Version)
 			os.Exit(0);
@@ -131,15 +133,15 @@ func (commander *Commander) Add(options ...*Option) {
 
 //Display the usage of `commander`
 func (commander *Commander) Usage() {
-	fmt.Fprintf(os.Stderr, "\n  Usage: %s [options]\n\n", commander.Name)
-	fmt.Fprintf(os.Stderr, "  Options:\n");
+	fmt.Fprintf(os.Stdout, "\n  Usage: %s [options]\n\n", commander.Name)
+	fmt.Fprintf(os.Stdout, "  Options:\n");
 
 	options := commander.Options
 	for i := range options {
-		fmt.Fprintf(os.Stderr, "    %s, %s %s",
+		fmt.Fprintf(os.Stdout, "    %s, %s %s\n",
 			options[i].Tiny, options[i].Verbose, options[i].Description)
 	}
-	fmt.Fprintf(os.Stderr, "\n")
+	fmt.Fprintf(os.Stdout, "\n")
 	os.Exit(0)
 }
 
@@ -150,7 +152,11 @@ func (commander *Commander) Len() int {
 }
 
 //Add option in clean way.
-func (commander *Commander) Option(switches string, description string) *Commander {
+func (commander *Commander) Option(switches string, description string) {
+	commander.OptionWithDefault(switches, description, "")
+}
+
+func (commander *Commander) OptionWithDefault (switches string, description string, defaultVal string) {
 	ss := strings.Split(switches, ",")
 
 	longArg := strings.Split(strings.TrimSpace(ss[1]), " ") //clear param if exists
@@ -163,7 +169,7 @@ func (commander *Commander) Option(switches string, description string) *Command
 		Verbose: longArg[0],
 		Description: description,
 		Required: false,
-		Value: "false",
+		Value: defaultVal,
 		Callback: nil,
 	}
 
@@ -176,12 +182,9 @@ func (commander *Commander) Option(switches string, description string) *Command
 	}
 
 	option.Callback = cb
-
+	
 	commander.Add(option)
-
-	return commander;
 }
-
 
 
 
