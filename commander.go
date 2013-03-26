@@ -18,7 +18,8 @@ type Option struct {
 	Verbose string
 	Description string
 	Required bool
-	Value string
+	StringValue string
+	Value interface{}
 	Callback func(...string)
 }
 
@@ -29,7 +30,7 @@ type Option struct {
 type Commander struct {
 	Name string
 	Version string
-	Options []Option
+	Options []*Option
 	Opts map[string]*Option //only temporary, eventually replace Options
 }
 
@@ -50,7 +51,7 @@ func Init(version string) *Commander {
 		Verbose: "--help",
 		Description: "display usage",
 		Required: false,
-		Value: "",
+		StringValue: "",
 		Callback: func(args ...string) {
 			p.Usage()
 		},
@@ -62,7 +63,7 @@ func Init(version string) *Commander {
 		Verbose: "--version",
 		Description: "display version",
 		Required: false,
-		Value: "",
+		StringValue: "",
 		Callback: func(args ...string) {
 			fmt.Fprintf(os.Stdout, "  Version: %s\n", p.Version)
 			os.Exit(0);
@@ -125,7 +126,7 @@ func (commander *Commander) explode(args []string) []string {
 //`Add` `option` to the commander instance
 func (commander *Commander) Add(options ...*Option) {
 	for i := range options {
-		commander.Options = append(commander.Options, *options[i])
+		commander.Options = append(commander.Options, options[i])
 		commander.Opts[options[i].Name] = options[i];
 	}
 }
@@ -169,15 +170,16 @@ func (commander *Commander) OptionWithDefault (switches string, description stri
 		Verbose: longArg[0],
 		Description: description,
 		Required: false,
-		Value: defaultVal,
+		StringValue: defaultVal,
+		Value: nil,
 		Callback: nil,
 	}
 
 	cb := func(args ...string) {
 		if len(args) > 0 {
-			option.Value = args[0]
+			option.StringValue = args[0]
 		} else {
-			option.Value = "true"
+			option.StringValue = "true"
 		}
 	}
 

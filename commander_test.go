@@ -3,7 +3,7 @@ package commander
 import (
 	"os"
 	"testing"
-	"fmt"
+	//"fmt"
 )
 
 //fuck Google and their encouragement of verbosity
@@ -37,12 +37,12 @@ func TestOption(t *testing.T) {
 	prog.Parse()
 
 	T (prog.Opts["cheese"].Name == "cheese")
-	T (prog.Opts["cheese"].Value == "mozzarella")
+	T (prog.Opts["cheese"].StringValue == "mozzarella")
 
 	os.Args = []string{"bogus", "--cheese", "cheddar"}
 	prog.Parse()
-	fmt.Println(prog.Opts["cheese"])
-	T (prog.Opts["cheese"].Value == "cheddar")
+	//fmt.Println(prog.Opts["cheese"])
+	T (prog.Opts["cheese"].StringValue == "cheddar")
 }
 
 func TestArgData(t *testing.T) {
