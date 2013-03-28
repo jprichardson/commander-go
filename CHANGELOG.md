@@ -1,4 +1,4 @@
-0.0.2 / 2013-03-
+0.0.2 / 2013-03-28
 ------------------
 * renamed `Value` to `StringValue`
 * changed from vals to pointers for `Options`
