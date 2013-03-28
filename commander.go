@@ -8,10 +8,8 @@ import (
 	"strings"
 )
 
-/**
- * `Option` type, contains data for a specific option
- */
 
+//Option type, contains data for a specific option
 type Option struct {
 	Name string
 	Tiny string
@@ -23,10 +21,8 @@ type Option struct {
 	Callback func(...string)
 }
 
-/**
- * Commander type, contains all program data
- */
 
+// Commander type, contains all program data 
 type Commander struct {
 	Name string
 	Version string
@@ -34,10 +30,8 @@ type Commander struct {
 	Opts map[string]*Option //only temporary, eventually replace Options
 }
 
-/**
- * Initialize a new commander with `args`
- */
 
+// Initialize a new commander with `args`
 func Init(version string) *Commander {
 	p := &Commander{
 		Name: filepath.Base(os.Args[0]),

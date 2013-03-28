@@ -26,6 +26,12 @@ func TestOption(*testing.T) {
 	t.EQ (prog.Opts["cheese"].StringValue, "cheddar")
 }
 
+func TestOptionWithDefault (*testing.T) {
+	prog := Init("")
+	prog.OptionWithDefault("-l, --lines <number>", "number of lines, default 10", "10")
+	t.EQ (prog.Opts["lines"].StringValue, "10")
+}
+
 func TestArgData(*testing.T) {
 	exec := false
 
