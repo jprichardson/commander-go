@@ -48,15 +48,14 @@ or...
 func main() {
   program := commander.Init("0.1.3")
 
-  program
-  .option("-p, --peppers", "Add peppers")
-  .option("-P, --pineapple", "Add pineapple")
-  .option("-b, --bbq", "Add bbq sauce")
-  .option("-c, --cheese [type]", "Add the specified type of cheese")
-  .parse()
+  program.Option("-p, --peppers", "Add peppers")
+  program.Option("-P, --pineapple", "Add pineapple")
+  program.Option("-b, --bbq", "Add bbq sauce")
+  program.Option("-c, --cheese [type]", "Add the specified type of cheese")
+  program.Parse()
 
   //access
-  program.Opts["cheese"].Value; //contains value passed like: "-c cheddar" or "--cheese cheddar" 
+  Program.Opts["cheese"].Value; //contains value passed like: "-c cheddar" or "--cheese cheddar" 
 }
 ```
 
