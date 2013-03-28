@@ -3,8 +3,13 @@ package commander
 import (
 	"os"
 	"testing"
+	"fmt"
 	"github.com/jprichardson/goatee-go"
 )
+
+func TestStart(*testing.T) {
+	fmt.Println("Tests starting... ") //Go will bitch if we don't use it somewhere
+}
 
 func TestInit(*testing.T) {
 	prog := Init("0.0.3")
@@ -30,6 +35,17 @@ func TestOptionWithDefault (*testing.T) {
 	prog := Init("")
 	prog.OptionWithDefault("-l, --lines <number>", "number of lines, default 10", "10")
 	t.EQ (prog.Opts["lines"].StringValue, "10")
+}
+
+func TestOptionWithoutTiny (*testing.T) {
+	prog := Init("")
+	prog.Option("--chunks <number>", "number of chunks to parse")
+
+	os.Args = []string{"progname", "--chunks", "500"}
+	prog.Parse()
+	
+	t.EQ (prog.Opts["chunks"].StringValue, "500")
+	t.EQ (prog.Opts["chunks"].Tiny, "")
 }
 
 func TestArgData(*testing.T) {

@@ -4,6 +4,7 @@
 * changed from vals to pointers for `Options`
 * added `goatee` for testing
 * replaced `package.toml` with `version.go`
+* `Option()` method can now accept a string without a tiny arg
 
 0.0.1 / 2013-03-22 
 ------------------

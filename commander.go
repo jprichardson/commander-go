@@ -152,16 +152,21 @@ func (commander *Commander) Option(switches string, description string) {
 }
 
 func (commander *Commander) OptionWithDefault (switches string, description string, defaultVal string) {
-	ss := strings.Split(switches, ",")
+	longArg := strings.Split(strings.TrimSpace(switches), " ")[0] //clear param if exists
+	name := strings.TrimLeft(longArg, "--")
+	tiny := ""
 
-	longArg := strings.Split(strings.TrimSpace(ss[1]), " ") //clear param if exists
-	name := strings.TrimLeft(longArg[0], "--")
-	//fmt.Println(longArg[0])
+	if strings.Contains(switches, ",") {
+		ss := strings.Split(switches, ",")
+		tiny = ss[0]
+		longArg = strings.Split(strings.TrimSpace(ss[1]), " ")[0] //clear param if exists
+		name = strings.TrimLeft(longArg, "--")
+	} 
 
 	option := &Option{
 		Name: name,
-		Tiny: ss[0],
-		Verbose: longArg[0],
+		Tiny: tiny,
+		Verbose: longArg,
 		Description: description,
 		Required: false,
 		StringValue: defaultVal,
