@@ -3,7 +3,7 @@
 * renamed `Value` to `StringValue`
 * changed from vals to pointers for `Options`
 * added `goatee` for testing
-
+* replaced `package.toml` with `version.go`
 
 0.0.1 / 2013-03-22 
 ------------------

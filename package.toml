@@ -1,8 +1,0 @@
-#forgive me, I'm probably using a little too much Node.js influence here
-name = "commander"
-version = "0.0.1"
-author = "JP Richardson <jprichardson@gmail.com>"
-
-#you knew it was coming, ;p
-[dependencies]
-#somepackage = github.com/someuser/somepackage#v0.0.1
