@@ -1,3 +1,7 @@
+0.0.4 / 2013-04-02
+------------------
+* added `Hidden` to `Option`
+
 0.0.3 / 2013-04-02
 ------------------
 * changed `-V` to `-v` for for `version`

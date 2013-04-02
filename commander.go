@@ -14,6 +14,7 @@ type Option struct {
 	Name string
 	Tiny string
 	Verbose string
+	Hidden bool //won't show up in Usage() / '--help'
 	Arg string
 	Description string
 	Required bool
@@ -44,6 +45,7 @@ func Init(version string) *Commander {
 		Name: "help",
 		Tiny: "-h",
 		Verbose: "--help",
+		Hidden: false,
 		Description: "display usage",
 		Required: false,
 		StringValue: "",
@@ -56,6 +58,7 @@ func Init(version string) *Commander {
 		Name: "version",
 		Tiny: "-v",
 		Verbose: "--version",
+		Hidden: false,
 		Description: "display version",
 		Required: false,
 		StringValue: "",
@@ -136,9 +139,11 @@ func (commander *Commander) Usage() {
 
 	longest := -1
 	for i := range options {
-		s := fmt.Sprintf("    %s, %s %s", options[i].Tiny, options[i].Verbose, options[i].Arg)
-		if len(s) > longest {
-			longest = len(s)
+		if !options[i].Hidden {
+			s := fmt.Sprintf("    %s, %s %s", options[i].Tiny, options[i].Verbose, options[i].Arg)
+			if len(s) > longest {
+				longest = len(s)
+			}
 		}
 	}
 
@@ -146,8 +151,10 @@ func (commander *Commander) Usage() {
 	ofmt := fmt.Sprintf("%%-%ds %%s\n", longest)
 
 	for i := range options {
-		left := fmt.Sprintf("    %s, %s %s", options[i].Tiny, options[i].Verbose, options[i].Arg)
-		fmt.Fprintf(os.Stdout, ofmt, left, options[i].Description)
+		if !options[i].Hidden {
+			left := fmt.Sprintf("    %s, %s %s", options[i].Tiny, options[i].Verbose, options[i].Arg)
+			fmt.Fprintf(os.Stdout, ofmt, left, options[i].Description)
+		}
 	}
 	fmt.Fprintf(os.Stdout, "\n")
 	os.Exit(0)
@@ -193,6 +200,7 @@ func (commander *Commander) OptionWithDefault (switches string, description stri
 		Tiny: tiny,
 		Verbose: longName,
 		Arg: arg,
+		Hidden: false,
 		Description: description,
 		Required: false,
 		StringValue: defaultVal,
