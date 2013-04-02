@@ -19,9 +19,15 @@ func TestInit(*testing.T) {
 
 func TestOption(*testing.T) {
 	prog := Init("0.0.1")
-	prog.Option("-c, --cheese <type>", "Add the specified type of cheese.")
+	prog.Option("-c, --cheese <type>", "add the specified type of cheese")
+	prog.Option("-b, --bbq", "add bbq sauce")
+	prog.Option("--peppers", "add peppers")
 	os.Args = []string{"bogus", "-c", "mozzarella"}
 	prog.Parse()
+
+	t.EQ (prog.Opts["cheese"].Arg, "<type>")
+	t.EQ (prog.Opts["bbq"].Arg, "")
+	t.EQ (prog.Opts["peppers"].Arg, "")
 
 	t.EQ (prog.Opts["cheese"].Name, "cheese")
 	t.EQ (prog.Opts["cheese"].StringValue, "mozzarella")

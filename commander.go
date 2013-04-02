@@ -14,6 +14,7 @@ type Option struct {
 	Name string
 	Tiny string
 	Verbose string
+	Arg string
 	Description string
 	Required bool
 	StringValue string
@@ -53,7 +54,7 @@ func Init(version string) *Commander {
 
 	p.Add(&Option{
 		Name: "version",
-		Tiny: "-V",
+		Tiny: "-v",
 		Verbose: "--version",
 		Description: "display version",
 		Required: false,
@@ -132,9 +133,21 @@ func (commander *Commander) Usage() {
 	fmt.Fprintf(os.Stdout, "  Options:\n");
 
 	options := commander.Options
+
+	longest := -1
 	for i := range options {
-		fmt.Fprintf(os.Stdout, "    %s, %s %s\n",
-			options[i].Tiny, options[i].Verbose, options[i].Description)
+		s := fmt.Sprintf("    %s, %s %s", options[i].Tiny, options[i].Verbose, options[i].Arg)
+		if len(s) > longest {
+			longest = len(s)
+		}
+	}
+
+	longest += 3 //add a few more spaces for padding
+	ofmt := fmt.Sprintf("%%-%ds %%s\n", longest)
+
+	for i := range options {
+		left := fmt.Sprintf("    %s, %s %s", options[i].Tiny, options[i].Verbose, options[i].Arg)
+		fmt.Fprintf(os.Stdout, ofmt, left, options[i].Description)
 	}
 	fmt.Fprintf(os.Stdout, "\n")
 	os.Exit(0)
@@ -152,21 +165,34 @@ func (commander *Commander) Option(switches string, description string) {
 }
 
 func (commander *Commander) OptionWithDefault (switches string, description string, defaultVal string) {
-	longArg := strings.Split(strings.TrimSpace(switches), " ")[0] //clear param if exists
-	name := strings.TrimLeft(longArg, "--")
+	longStuff := strings.Split(strings.TrimSpace(switches), " ") //clear param if exists
+	longName := longStuff[0]
+	arg := ""
+	if len(longStuff) > 1 {
+		arg = longStuff[1]
+	}
+	name := strings.TrimLeft(longName, "--")
 	tiny := ""
 
-	if strings.Contains(switches, ",") {
+	if strings.Contains(switches, ",") { //"-c, --cheese <type>"
 		ss := strings.Split(switches, ",")
-		tiny = ss[0]
-		longArg = strings.Split(strings.TrimSpace(ss[1]), " ")[0] //clear param if exists
-		name = strings.TrimLeft(longArg, "--")
+		tiny = ss[0] //"-c"
+		longStuff = strings.Split(strings.TrimSpace(ss[1]), " ") //"--cheese <type>"
+		longName = longStuff[0] //"--cheese"
+		if len(longStuff) > 1 {
+			arg = longStuff[1] //"<type>"
+		} else {
+			arg = ""
+		}
+
+		name = strings.TrimLeft(longName, "--") //"cheese"
 	} 
 
 	option := &Option{
 		Name: name,
 		Tiny: tiny,
-		Verbose: longArg,
+		Verbose: longName,
+		Arg: arg,
 		Description: description,
 		Required: false,
 		StringValue: defaultVal,

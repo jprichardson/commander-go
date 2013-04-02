@@ -1,3 +1,9 @@
+0.0.3 / 2013-04-02
+------------------
+* changed `-V` to `-v` for for `version`
+* added `Arg` to `Option` struct
+* formatted output on help to be cleaner
+
 0.0.2 / 2013-03-28
 ------------------
 * renamed `Value` to `StringValue`
