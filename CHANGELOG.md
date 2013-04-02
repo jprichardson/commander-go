@@ -1,3 +1,8 @@
+0.0.5 / 2013-04-02
+------------------
+* fixed bug to allow for negative number as input
+* rewrote `Parse()`
+
 0.0.4 / 2013-04-02
 ------------------
 * added `Hidden` to `Option`

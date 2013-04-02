@@ -43,6 +43,17 @@ func TestOptionWithDefault (*testing.T) {
 	t.EQ (prog.Opts["lines"].StringValue, "10")
 }
 
+func TestOptionWithNegative (*testing.T) {
+	prog := Init("")
+
+	prog.Option("-n, --number <num>", "input a negative number")
+	os.Args = []string{"program", "-n", "-5"}
+	prog.Parse()
+
+	t.EQ (prog.Opts["number"].StringValue, "-5")
+
+}
+
 func TestOptionWithoutTiny (*testing.T) {
 	prog := Init("")
 	prog.Option("--chunks <number>", "number of chunks to parse")

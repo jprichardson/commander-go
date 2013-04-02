@@ -30,6 +30,8 @@ type Commander struct {
 	Version string
 	Options []*Option
 	Opts map[string]*Option //only temporary, eventually replace Options
+	TinyOpts map[string]*Option
+	LongOpts map[string]*Option
 }
 
 
@@ -39,6 +41,8 @@ func Init(version string) *Commander {
 		Name: filepath.Base(os.Args[0]),
 		Version: version,
 		Opts: make(map[string]*Option),
+		TinyOpts: make(map[string]*Option),
+		LongOpts: make(map[string]*Option),
 	}
 
 	p.Add(&Option{
@@ -73,7 +77,7 @@ func Init(version string) *Commander {
 
 
 //`Parse` arguments
-func (commander *Commander) Parse() {
+func (commander *Commander) oldParse() {
 	args := commander.explode(os.Args[1:])
 	//fmt.Println(args)
 
@@ -92,7 +96,9 @@ func (commander *Commander) Parse() {
 					option.Callback()
 				}
 				found = true
-			}
+			} /*else {
+				//fmt.Printf("arg: %s\n", arg)
+			}*/
 		}
 		if option.Required && !found {
 			// Option is required and not found
@@ -101,7 +107,44 @@ func (commander *Commander) Parse() {
 	}
 }
 
+func (prog *Commander) Parse() {
+	args := os.Args[1:]//prog.explode(os.Args[1:])
+	opts := make(map[string]*Option)
+
+	//first pass
+	for i := 0; i < len(args); i++ {
+		arg := args[i]
+		if strings.Index(arg, "--") == 0 { 
+			if prog.LongOpts[arg] != nil {
+				opts[arg] = prog.LongOpts[arg]
+			}
+		} else if strings.Index(arg, "-") == 0 {
+			if prog.TinyOpts[arg] != nil {
+				opts[arg] = prog.TinyOpts[arg]
+			}
+		}
+	}
+
+	//second pass
+	for i:= 0; i < len(args); i++ {
+		arg := args[i]
+
+		if opt,ok := opts[arg]; ok {
+			nextArg := ""
+			if i < len(args) - 1 {
+				nextArg = args[i + 1]
+			}
+			if opts[nextArg] == nil && nextArg != "" {
+				opt.Callback(nextArg)
+			} else {
+				opt.Callback()
+			}
+		}
+	}
+}
+
 func (commander *Commander) explode(args []string) []string {
+	//fmt.Printf("%#v\n",args)
 	newargs := make([]string, 0, len(args))
 
 	for i := range args {
@@ -117,6 +160,7 @@ func (commander *Commander) explode(args []string) []string {
 		}
 	}
 
+	//fmt.Printf("%#v\n",newargs)
 	return newargs
 }
 
@@ -126,6 +170,8 @@ func (commander *Commander) Add(options ...*Option) {
 	for i := range options {
 		commander.Options = append(commander.Options, options[i])
 		commander.Opts[options[i].Name] = options[i];
+		commander.TinyOpts[options[i].Tiny] = options[i];
+		commander.LongOpts[options[i].Verbose] = options[i];
 	}
 }
 
