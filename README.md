@@ -15,7 +15,7 @@ Unix like argument parsing for go. Heavily inspired by: [commander.c](https://gi
 Installing
 ----------
 
-    go get github.com/jprichardson/go-commander
+    go get github.com/jprichardson/commander-go
 
 
 Usage
